@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { messages } from 'src/app/general/messages';
+import { Messages } from 'src/app/general/messages';
+import { LABEL } from 'src/app/general/shared/label';
+import { MessagesService } from 'src/app/general/shared/messages.service';
 import { State, STATES } from 'src/app/general/shared/state';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { Rol } from '../shared/rol';
 import { RolService } from '../shared/rol.service';
 import { User } from '../shared/user';
@@ -35,10 +36,10 @@ export class EditUserComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private rolService: RolService
+    private rolService: RolService,
+    private messagesService: MessagesService
   ) {
     this.addForm = this.formBuilder.group({
-      clave: [null, Validators.required],
       usuario: [null, Validators.required],
       rol: [null, Validators.required],
       estado: [null, Validators.required]
@@ -75,7 +76,6 @@ export class EditUserComponent implements OnInit {
           }
 
           this.addForm = this.formBuilder.group({
-            clave: [this.usuario.password, Validators.required],
             usuario: [this.usuario.user, Validators.required],
             rol: [this.roles[this.indice]],
             estado: [this.estados[this.indiceState]]
@@ -87,10 +87,10 @@ export class EditUserComponent implements OnInit {
 
   //seteo de usuario
   setUser(): User {
-    if (this.isValidateUser()) {
+    if (!this.addForm.invalid) {
       let userForm: User = {
         user: this.addForm.get('usuario').value,
-        password: this.addForm.get('clave').value,
+        password: null,
         rol: this.addForm.get('rol').value.name,
         state: this.addForm.get('estado').value.code,
         registrationDate: '',
@@ -100,51 +100,26 @@ export class EditUserComponent implements OnInit {
       };
       return userForm;
     } else {
+      this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.user));
+
       return null;
     }
   }
 
-  isValidateUser(): boolean {
-    if (
-      this.addForm.get('usuario').value == null ||
-      this.addForm.get('clave').value == null ||
-      this.addForm.get('rol').value == null ||
-      this.addForm.get('estado').value == null
-    ) {
-      return false;
-    }
-
-    return true;
-  }
   onSave() {
     let usuarioA = this.setUser();
-    console.log('usuario sin actualizar es:', usuarioA);
+    //console.log('usuario sin actualizar es:', usuarioA);
     if (usuarioA != null) {
       this.userService.edit(usuarioA).subscribe(
         (data) => {
           this.usuario = data;
-          Swal.fire({
-            text: messages.editUserSuccess,
-            icon: messages.success,
-            width: messages.widthWindowMessage,
-            dismissOnDestroy: false
-          });
+          this.messagesService.showSuccessMessage(Messages.get('edit_success', LABEL.user));
           this.router.navigate([`/app/users/list`]);
         },
         (error) => {
-          Swal.fire({
-            text: messages.editUserError + ' : ' + error,
-            icon: messages.error,
-            width: messages.widthWindowMessage
-          });
+          this.messagesService.showErrorMessage(Messages.get('edit_error', LABEL.user, ':' + error));
         }
       );
-    } else {
-      Swal.fire({
-        text: messages.emptydDataForm,
-        icon: messages.error,
-        width: messages.widthWindowMessage
-      });
     }
   }
   getUsuario() {

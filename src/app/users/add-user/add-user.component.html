@@ -60,27 +60,13 @@
               </mat-select>
             </mat-form-field>
 
-            <!--mat-form-field id="address">
-              <input formControlName="address" matInput placeholder="direccion" />
-            </mat-form-field-->
-
             <mat-form-field id="email">
-              <input formControlName="email" matInput placeholder="email" required />
+              <input formControlName="email" matInput placeholder="email" required (change)="changeEmail()" />
             </mat-form-field>
-
-            <!--mat-form-field id="phone">
-              <input formControlName="phone" matInput placeholder="télefono" />
-            </mat-form-field-->
 
             <mat-form-field id="cellphone">
               <input formControlName="cellphone" matInput placeholder="celular" required />
             </mat-form-field>
-
-            <!--mat-form-field id="birthdate">
-              <input matInput [matDatepicker]="birthdate" placeholder="Fecha  Nacimiento" [formControl]="birthdate" />
-              <mat-datepicker-toggle matSuffix [for]="birthdate"></mat-datepicker-toggle>
-              <mat-datepicker #birthdate></mat-datepicker>
-            </mat-form-field-->
 
             <div class="button-container">
               <button mat-rai sed-button color="primary" (click)="guardar()">Guardar</button>

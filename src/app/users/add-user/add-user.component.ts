@@ -3,14 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatOption, MatSelectChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { DocumentType, DOCUMENT_TYPES, NIT } from 'src/app/clients/shared/document-type';
-import { messages } from 'src/app/general/messages';
+import { DocumentType, DOCUMENT_TYPES } from 'src/app/clients/shared/document-type';
+import { Messages } from 'src/app/general/messages';
 import { Country } from 'src/app/general/shared/country';
 import { CountryService } from 'src/app/general/shared/country.service';
+import { LABEL } from 'src/app/general/shared/label';
+import { MessagesService } from 'src/app/general/shared/messages.service';
 import { State, STATES } from 'src/app/general/shared/state';
 import { Person } from 'src/app/persons/shared/person';
 import { PersonService } from 'src/app/persons/shared/person.service';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { Rol } from '../shared/rol';
 import { RolService } from '../shared/rol.service';
 import { User } from '../shared/user';
@@ -55,7 +56,8 @@ export class AddUserComponent implements OnInit {
     private userService: UserService,
     private rolService: RolService,
     private personService: PersonService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private messagesService: MessagesService
   ) {}
 
   ngOnInit() {
@@ -75,7 +77,7 @@ export class AddUserComponent implements OnInit {
     this.documentTypes = DOCUMENT_TYPES;
 
     this.userForm = this.formBuilder.group({
-      user: [null, Validators.required],
+      user: [null, Validators.email],
       clave: [null, Validators.required],
       rol: [null, Validators.required],
       state: [null, Validators.required]
@@ -92,7 +94,7 @@ export class AddUserComponent implements OnInit {
   }
 
   setUser(personaId: string): User {
-    if (this.isValidateUser()) {
+    if (this.userForm.valid) {
       let userForm: User = {
         user: this.userForm.get('user').value,
         password: this.userForm.get('clave').value,
@@ -105,12 +107,13 @@ export class AddUserComponent implements OnInit {
       };
       return userForm;
     } else {
+      this.messagesService.showErrorMessage(Messages.get('dataFormError', LABEL.user));
       return null;
     }
   }
 
   setPerson(): Person {
-    if (this.isValidatePerson()) {
+    if (this.personForm.valid) {
       let personaForm: Person = {
         document: this.personForm.get('document').value,
         documentType: this.personForm.get('documentType').value,
@@ -128,44 +131,10 @@ export class AddUserComponent implements OnInit {
       };
       return personaForm;
     } else {
+      this.messagesService.showErrorMessage(Messages.get('dataFormError', LABEL.person));
+
       return null;
     }
-  }
-
-  isValidatePerson(): boolean {
-    if (
-      this.personForm.get('document').value == null ||
-      this.personForm.get('documentType').value == null ||
-      this.personForm.get('country').value == null ||
-      this.personForm.get('cellphone').value == null ||
-      this.personForm.get('email').value == null ||
-      this.personForm.get('firstName').value == null
-    ) {
-      return false;
-    }
-    //validar segundo apellido para NIT
-    if (
-      this.personForm.get('lastName').value == !null &&
-      this.personForm.get('documentType').value != null &&
-      this.personForm.get('documentType').value == NIT.code
-    ) {
-      return false;
-    }
-
-    return true;
-  }
-
-  isValidateUser(): boolean {
-    if (
-      this.userForm.get('user').value == null ||
-      this.userForm.get('clave').value == null ||
-      this.userForm.get('rol').value == null ||
-      this.userForm.get('state').value == null
-    ) {
-      return false;
-    }
-
-    return true;
   }
 
   guardar() {
@@ -179,88 +148,44 @@ export class AddUserComponent implements OnInit {
           if (this.personaSave.uuid != null) {
             this.userService.add(this.setUser(this.personaSave.uuid)).subscribe(
               (data) => {
-                try {
-                  this.usuarioSave = data;
+                this.usuarioSave = data;
+                if (this.usuarioSave.uuid != null) {
+                  this.messagesService.showSuccessMessage(Messages.get('insert_success', LABEL.user));
 
-                  if (this.usuarioSave.uuid != null) {
-                    Swal.fire({
-                      text: messages.addUserSuccess,
-                      icon: messages.success,
-                      dismissOnDestroy: false
-                    });
-                    this.router.navigate([`/app/users/list`]);
-                  }
-                } catch (error) {
-                  this.personService.delete(this.personaSave).subscribe(
-                    (data) => {
-                      Swal.fire({
-                        text: messages.addUserError + ' : ' + error,
-                        icon: messages.error
-                      });
-                    },
-                    (error) => {
-                      Swal.fire({
-                        text: messages.deletePersonError + ' : ' + error,
-                        icon: messages.error
-                      });
-                    }
-                  );
+                  this.router.navigate([`/app/users/list`]);
                 }
               },
               (err) => {
                 this.personService.delete(this.personaSave).subscribe(
                   (data) => {
-                    Swal.fire({
-                      text: messages.addUserError + err,
-                      icon: messages.error
-                    });
+                    this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.user, ''));
                   },
                   (error) => {
-                    Swal.fire({
-                      text: messages.deletePersonError + ': ' + error,
-                      icon: messages.error
-                    });
+                    this.messagesService.showErrorMessage(Messages.get('delete_error', LABEL.person, error));
                   }
                 );
               }
             );
           }
         },
-        (err) => {
-          Swal.fire({
-            text: messages.addUserError + ': ' + err,
-            icon: messages.error
-          });
+        (error) => {
+          this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.user, error));
         }
       );
     } else {
-      let user = this.setPerson();
+      let user = this.setUser(this.personID);
+
       if (user != null) {
-        this.userService.add(this.setUser(this.personID)).subscribe(
+        this.userService.add(user).subscribe(
           (data) => {
             this.usuarioSave = data;
-
-            if (this.usuarioSave.uuid != null) {
-              Swal.fire({
-                text: messages.addUserSuccess,
-                icon: messages.success,
-                dismissOnDestroy: false
-              });
-              this.router.navigate([`/app/users/list`]);
-            }
+            this.messagesService.showSuccessMessage(Messages.get('insert_success', LABEL.user));
+            this.router.navigate([`/app/users/list`]);
           },
           (error) => {
-            Swal.fire({
-              text: messages.addUserError + ': ' + error,
-              icon: messages.error
-            });
+            this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.user, error));
           }
         );
-      } else {
-        Swal.fire({
-          text: messages.addUserError + ': ' + messages.emptydDataForm,
-          icon: messages.error
-        });
       }
     }
   }
@@ -279,6 +204,32 @@ export class AddUserComponent implements OnInit {
       value: event.source.value
     };
     this.typeDocumentValue = selectedData.value;
+  }
+
+  changeEmail() {
+    if (!this.personForm.get('email').invalid) {
+      const confirmMessage = Messages.get('setEmailtoLogin', this.personForm.get('email').value);
+      this.messagesService.showConfirmMessage(confirmMessage).subscribe((shouldDelete) => {
+        this.userForm.reset();
+        if (shouldDelete) {
+          if (this.userForm.get('user').value == null) {
+            this.userForm.setValue({
+              user: this.personForm.get('email').value,
+              clave: this.userForm.get('clave').value,
+              rol: this.userForm.get('rol').value,
+              state: this.userForm.get('state').value
+            });
+          } else {
+            this.userForm.setValue({
+              user: null,
+              clave: this.userForm.get('clave').value,
+              rol: this.userForm.get('rol').value,
+              state: this.userForm.get('state').value
+            });
+          }
+        }
+      });
+    }
   }
 
   private filterPersons() {

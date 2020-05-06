@@ -21,6 +21,18 @@
       <input matInput type="number" formControlName="stock" placeholder="stock" required />
     </mat-form-field>
 
+    <mat-form-field>
+      <input matInput type="number" formControlName="icoPercentage" placeholder="% Impuesto de consumo" min="0" max="30" required />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" formControlName="ivaPercentage" placeholder="% IVA" min="0" max="30" required />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" formControlName="taxPercentage" min="0" max="30" placeholder="Retención en la Fuente" required />
+    </mat-form-field>
+
     <mat-label>Estado:</mat-label>
     <mat-radio-group formControlName="active">
       <ng-container>

@@ -1,10 +1,13 @@
 export interface Item {
-  state: number;
+  state: boolean;
   description: string;
   hotelId: string;
-  price: BigInteger;
-  quantity: BigInteger;
-  stock: BigInteger;
+  price: number;
+  quantity: number;
+  stock: number;
   uuid: string;
   name: string;
+  icoPercentage: number;
+  ivaPercentage: number;
+  taxPercentage: number;
 }

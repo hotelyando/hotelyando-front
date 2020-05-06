@@ -1,0 +1,67 @@
+<form [formGroup]="editFormHotel">
+  <div class="hotel-container">
+    <h6>Actualizar Hotel</h6>
+
+    <mat-form-field>
+      <input matInput placeholder="Nombre" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Direccion" formControlName="address" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Correo" formControlName="email" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="telefono" formControlName="phone" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Celular" formControlName="cellPhone" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="nit" formControlName="nit" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="altitude" formControlName="altitude" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="latitud" formControlName="latitude" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="checkIn" formControlName="checkIn" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="checkOut" formControlName="checkOut" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="taxPercentage" formControlName="taxPercentage" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="timeReservation" formControlName="timeReservation" />
+    </mat-form-field>
+    <p></p>
+
+    Redes Sociales:
+    <p></p>
+    <button mat-button (click)="addRed()">Adicionar Red Social</button>
+
+    <div *ngFor="let red of redes.controls; index as i">
+      <input [formControl]="redes.controls[i]" />
+      <button mat-button (click)="removeRed(i)">Eliminar</button>
+
+      <p></p>
+    </div>
+
+    <div>
+      <p></p>
+      <button mat-button (click)="edit()">Actualizar</button>
+      <button mat-button (click)="cancel()">Cancelar</button>
+    </div>
+  </div>
+</form>

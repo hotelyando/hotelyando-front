@@ -5,7 +5,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { messages } from 'src/app/general/messages';
 import { Response, ResponseList } from 'src/app/general/shared/response';
 import { environment } from 'src/environments/environment';
-import { User } from './user';
+import { ChangePassword, User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ import { User } from './user';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  add(person: User): Observable<User> {
+  add(user: User): Observable<User> {
     const url = environment.apiUrl;
-    return this.http.post<Response<User>>(`${url}user`, person).pipe(
+    return this.http.post<Response<User>>(`${url}user`, user).pipe(
       switchMap((data) => of(data.content)),
       catchError((error) => {
         if (error.status == 400) {
@@ -27,12 +27,14 @@ export class UserService {
     );
   }
 
-  edit(usuario: User): Observable<any> {
+  edit(user: User): Observable<any> {
     const url = environment.apiUrl;
 
-    return this.http.put<any>(`${url}user`, usuario).pipe(
+    return this.http.put<any>(`${url}user`, user).pipe(
       switchMap((data) => of(data.content)),
       catchError((error) => {
+        console.log(user);
+        console.log('ops:::', error);
         if (error.status == 400) {
           return throwError(error.error.message);
         } else {
@@ -62,6 +64,21 @@ export class UserService {
     const url = environment.apiUrl;
     return this.http.get<Response<User>>(`${url}user/` + id).pipe(
       switchMap((data) => of(data.content)),
+      catchError((error) => {
+        if (error.status == 400) {
+          return throwError(error.error.message);
+        } else {
+          return throwError(messages.tecnicalError);
+        }
+      })
+    );
+  }
+
+  changePassword(changePassword: ChangePassword): Observable<string> {
+    const url = environment.apiUrl;
+
+    return this.http.put<Response<User>>(`${url}user/` + changePassword.password + '/' + changePassword.newPassword, null).pipe(
+      switchMap((data) => of(data.message)),
       catchError((error) => {
         if (error.status == 400) {
           return throwError(error.error.message);

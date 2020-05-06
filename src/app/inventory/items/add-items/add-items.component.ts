@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { messages } from 'src/app/general/messages';
+import { Messages } from 'src/app/general/messages';
+import { LABEL } from 'src/app/general/shared/label';
+import { MessagesService } from 'src/app/general/shared/messages.service';
 import { State, STATES } from 'src/app/general/shared/state';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { Item } from '../../shared/item';
 import { ItemService } from '../../shared/item.service';
 
@@ -18,7 +19,12 @@ export class AddItemsComponent implements OnInit {
   addFormItem: FormGroup;
   estados: State[];
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private itemService: ItemService) {}
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private itemService: ItemService,
+    private messagesService: MessagesService
+  ) {}
 
   ngOnInit() {
     this.estados = STATES;
@@ -29,11 +35,19 @@ export class AddItemsComponent implements OnInit {
       stock: [null, Validators.required],
       active: [null, Validators.required],
       name: [null, Validators.required],
-      price: [null, Validators.required]
+      price: [null, Validators.required],
+      icoPercentage: [null, Validators.required],
+      ivaPercentage: [null, Validators.required],
+      taxPercentage: [null, Validators.required]
     });
   }
 
   onSubmit() {
+    if (!this.addFormItem.valid) {
+      this.messagesService.showErrorMessage(Messages.get('dataFormError', LABEL.item));
+      return;
+    }
+
     const cf: Item = {
       price: this.addFormItem.get('price').value,
       stock: this.addFormItem.get('stock').value,
@@ -42,25 +56,19 @@ export class AddItemsComponent implements OnInit {
       state: this.addFormItem.get('active').value,
       name: this.addFormItem.get('name').value,
       hotelId: '',
-      uuid: '0'
+      uuid: '0',
+      icoPercentage: this.addFormItem.get('icoPercentage').value,
+      ivaPercentage: this.addFormItem.get('ivaPercentage').value,
+      taxPercentage: this.addFormItem.get('taxPercentage').value
     };
 
     this.itemService.add(cf).subscribe(
       (data) => {
-        Swal.fire({
-          text: messages.editItemSuccess,
-          icon: messages.success,
-          width: messages.widthWindowMessage,
-          dismissOnDestroy: false
-        });
+        this.messagesService.showSuccessMessage(Messages.get('insert_success', LABEL.item));
         this.router.navigate([`/app/items/list`]);
       },
       (err) => {
-        Swal.fire({
-          text: messages.editItemError + ' : ' + err,
-          icon: messages.error,
-          width: messages.widthWindowMessage
-        });
+        this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.item));
       }
     );
   }

@@ -1,0 +1,69 @@
+<p></p>
+
+<div class="mat-header-row">
+  <div class="mat-header-cell">Datos básicos de la Empresa</div>
+</div>
+
+<div class="mat-table">
+  <div class="mat-header-row">
+    <div class="mat-header-cell">Nit</div>
+    <div class="mat-header-cell">Nombre</div>
+    <div class="mat-header-cell">Dirección</div>
+  </div>
+  <div class="mat-row">
+    <div class="mat-cell">{{ hotel.nit }}</div>
+    <div class="mat-cell">{{ hotel.name }}</div>
+    <div class="mat-cell">{{ hotel.address }}</div>
+  </div>
+</div>
+
+<div class="mat-table">
+  <div class="mat-header-row">
+    <div class="mat-header-cell">Teléfono</div>
+    <div class="mat-header-cell">Celular</div>
+    <div class="mat-header-cell">Correo</div>
+  </div>
+  <div class="mat-row">
+    <div class="mat-cell">{{ hotel.nit }}</div>
+    <div class="mat-cell">{{ hotel.name }}</div>
+    <div class="mat-cell">{{ hotel.email }}</div>
+  </div>
+</div>
+<p></p>
+<div *ngIf="hotel.socialNetworks.length > 0">
+  <div class="mat-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell">Redes Sociales</div>
+    </div>
+    <div class="mat-row">
+      <div class="mat-cell">
+        <span *ngFor="let red of hotel.socialNetworks"> &nbsp; {{ red }}&nbsp; </span>
+      </div>
+    </div>
+  </div>
+  <p></p>
+
+  <div class="mat-header-row">
+    <div class="mat-header-cell">Datos para Hospedaje y reserva</div>
+  </div>
+
+  <p></p>
+
+  <div class="mat-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell">Check-in</div>
+      <div class="mat-header-cell">Check-out</div>
+      <div class="mat-header-cell">IVA %</div>
+      <div class="mat-header-cell">Tiempo de Reserva</div>
+    </div>
+
+    <div class="mat-row">
+      <div class="mat-cell">{{ hotel.parameterize.checkIn }}</div>
+      <div class="mat-cell">{{ hotel.parameterize.checkOut }}</div>
+      <div class="mat-cell">{{ hotel.parameterize.taxPercentage }}</div>
+      <div class="mat-cell">{{ hotel.parameterize.timeReservation }}</div>
+    </div>
+  </div>
+
+  <p></p>
+</div>

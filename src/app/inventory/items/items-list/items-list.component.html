@@ -23,9 +23,23 @@
       <td mat-cell *matCellDef="let element">{{ element.stock }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="icoPercentage">
+      <th mat-header-cell *matHeaderCellDef>% IPC</th>
+      <td mat-cell *matCellDef="let element">{{ element.icoPercentage }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ivaPercentage">
+      <th mat-header-cell *matHeaderCellDef>% IVA</th>
+      <td mat-cell *matCellDef="let element">{{ element.ivaPercentage }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="taxPercentage">
+      <th mat-header-cell *matHeaderCellDef>Ret Fte</th>
+      <td mat-cell *matCellDef="let element">{{ element.taxPercentage }}</td>
+    </ng-container>
     <ng-container matColumnDef="activate">
-      <th mat-header-cell *matHeaderCellDef>Estado</th>
-      <td mat-cell *matCellDef="let element">{{ element.state }}</td>
+      <th mat-header-cell *matHeaderCellDef>Activo</th>
+      <td mat-cell *matCellDef="let element">{{ element.state | activeNoActive }}</td>
     </ng-container>
 
     <ng-container matColumnDef="edit">

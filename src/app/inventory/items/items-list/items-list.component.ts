@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { messages } from 'src/app/general/messages';
-import { State, STATES } from 'src/app/general/shared/state';
+import { State } from 'src/app/general/shared/state';
 import { Item } from '../../shared/item';
 import { ItemService } from '../../shared/item.service';
 
@@ -14,7 +14,18 @@ const ELEMENT_DATA: Item[] = [];
   styleUrls: ['./items-list.component.scss']
 })
 export class ItemsListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'description', 'quantity', 'price', 'stock', 'activate', 'edit'];
+  displayedColumns: string[] = [
+    'name',
+    'description',
+    'quantity',
+    'price',
+    'stock',
+    'icoPercentage',
+    'ivaPercentage',
+    'taxPercentage',
+    'activate',
+    'edit'
+  ];
 
   estados: State[];
 
@@ -28,16 +39,6 @@ export class ItemsListComponent implements OnInit {
     this.itemService.list().subscribe((data) => {
       let listaItems = data;
 
-      this.estados = STATES;
-      listaItems.forEach((element) => {
-        this.estados = STATES;
-
-        for (let i = 0; i < this.estados.length; i++) {
-          if (element.state == Number(this.estados[i].code)) {
-            element.state = Number(this.estados[i].code);
-          }
-        }
-      });
       this.dataSource = new MatTableDataSource<Item>(listaItems);
       this.dataSource.paginator = this.paginator;
     });

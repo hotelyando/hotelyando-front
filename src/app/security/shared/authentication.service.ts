@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
+import { messages } from 'src/app/general/messages';
+import { Response } from 'src/app/general/shared/response';
 import { environment } from 'src/environments/environment';
 import { UserCredential } from './user-credential';
 
@@ -20,7 +22,7 @@ export class AuthenticationService {
         password: pass
       })
       .pipe(
-        switchMap(response => {
+        switchMap((response) => {
           if (response.message && response.message === 'Usuario encontrado.') {
             this.setUserCredential(response.content);
             return of(true);
@@ -33,5 +35,20 @@ export class AuthenticationService {
   setUserCredential(userCredential: UserCredential) {
     localStorage.setItem('userLogged', userCredential.user);
     localStorage.setItem('token', userCredential.token);
+  }
+
+  logout(): Observable<string> {
+    const url = environment.apiUrl;
+
+    return this.http.delete<Response<string>>(`${url}login`).pipe(
+      switchMap((data) => of(data.message)),
+      catchError((error) => {
+        if (error.status == 400) {
+          return throwError(error.error.message);
+        } else {
+          return throwError(messages.tecnicalError);
+        }
+      })
+    );
   }
 }

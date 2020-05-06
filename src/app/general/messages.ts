@@ -46,6 +46,19 @@ export class Messages {
   private static messages = {
     delete_confirm: '¿Estás seguro de eliminar el %0?',
     delete_success: 'El %0 fue eliminado exitosamente',
+    delete_error: 'El %0  no fue eliminado exitosamente',
+    insert_confirm: '¿Estás seguro de ingresar el %0?',
+    insert_success: 'El %0 fue ingresado exitosamente',
+    insert_error: 'Error al ingresar el %0 : %1',
+    edit_confirm: '¿Estás seguro de actualizar el %0?',
+    edit_success: 'El %0 fue actualizado exitosamente',
+    edit_error: 'Error al actualizar el %0  %1',
+    retrieve_error: ' Error al consultar los datos de %0',
+
+    setEmailtoLogin: '¿Desea colocar el email %0 como usuario?',
+    dataFormError: ' Falta diligenciar uno de los datos para %0 ',
+
+    confirm_logout: 'Desea salir del sistema?',
 
     priceDetail_info_incomplete:
       'Para definir un precio <b>personalizado</b>, debe definir por lo menos para que día aplicará y un precio por día u hora.',
