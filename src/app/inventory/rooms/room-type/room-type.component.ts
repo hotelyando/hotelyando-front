@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { Messages } from 'src/app/general/messages';
 import { MessagesService } from 'src/app/general/shared/messages.service';
 import { PriceDetail, RoomType } from '../../shared/room';
@@ -27,18 +28,33 @@ export class RoomTypeComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private roomService: RoomService,
-    private messagesService: MessagesService
+    private messagesService: MessagesService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.priceDetails);
-
     this.roomTypeForm = this.formBuilder.group({
       uuid: [null],
       description: [null, Validators.required],
       priceDay: [null, Validators.required],
       priceHour: [null, Validators.required]
     });
+    this.dataSource = new MatTableDataSource(this.priceDetails);
+
+    this.loadRoomType();
+  }
+
+  loadRoomType() {
+    const uuid = this.route.snapshot.paramMap.get('uuid');
+    if (uuid) {
+      this.roomService.getRoomType(uuid).subscribe((roomType) => {
+        if (roomType) {
+          console.log('tipo habitación', roomType);
+          this.roomTypeForm.reset(roomType, { emitEvent: false });
+          this.dataSource = new MatTableDataSource(roomType.priceDetails);
+        }
+      });
+    }
   }
 
   removePriceDetail(index: number) {
@@ -68,7 +84,7 @@ export class RoomTypeComponent implements OnInit {
     }
 
     const roomType: RoomType = this.getInfoRoomType();
-    this.roomService.addType(roomType).subscribe(
+    this.roomService.saveType(roomType).subscribe(
       () => this.messagesService.showSuccessMessage(Messages.get('priceDetail_save_success')),
       (error) => this.messagesService.showErrorMessage(error.message)
     );
@@ -81,7 +97,7 @@ export class RoomTypeComponent implements OnInit {
       description: valuesRoom.description,
       priceDay: valuesRoom.priceDay,
       priceHour: valuesRoom.priceHour,
-      priceDetails: null
+      priceDetails: this.dataSource.data
     } as RoomType;
   }
 

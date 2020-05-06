@@ -8,27 +8,27 @@
       <table *ngIf="hasRoomTypes()" mat-table [dataSource]="dataSource" class="mat-elevation-z2">
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef>Descripción</th>
-          <td mat-cell *matCellDef="let priceDetail">{{ priceDetail.description }}</td>
+          <td mat-cell *matCellDef="let roomType">{{ roomType.description }}</td>
         </ng-container>
         <ng-container matColumnDef="priceDay">
           <th mat-header-cell *matHeaderCellDef>Precio día</th>
-          <td mat-cell *matCellDef="let priceDetail">{{ priceDetail.priceDay | currency:'USD':'symbol':'1.0-0' }}
+          <td mat-cell *matCellDef="let roomType">{{ roomType.priceDay | currency:'USD':'symbol':'1.0-0' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="priceHour">
           <th mat-header-cell *matHeaderCellDef>Precio hora</th>
-          <td mat-cell *matCellDef="let priceDetail">{{ priceDetail.priceHour | currency:'USD':'symbol':'1.0-0'}}</td>
+          <td mat-cell *matCellDef="let roomType">{{ roomType.priceHour | currency:'USD':'symbol':'1.0-0'}}</td>
         </ng-container>
         <ng-container matColumnDef="priceDetails">
           <th mat-header-cell *matHeaderCellDef>Tiene precios personalizados</th>
-          <td mat-cell *matCellDef="let priceDetail">{{ hasPriceDetails(priceDetail) | yesNo}}</td>
+          <td mat-cell *matCellDef="let roomType">{{ hasPriceDetails(roomType) | yesNo}}</td>
         </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let i = index;" class="action-column-icon">
+          <td mat-cell *matCellDef="let i = index; let roomType" class="action-column-icon">
             <mat-icon>search</mat-icon>
-            <mat-icon>edit</mat-icon>
-            <mat-icon (click)="delete()">delete</mat-icon>
+            <mat-icon [routerLink]="[roomType.uuid]">edit</mat-icon>
+            <mat-icon (click)="delete(roomType)">delete</mat-icon>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -17,6 +17,10 @@ export class RoomTypeListComponent implements OnInit {
   constructor(private roomService: RoomService, private messagesService: MessagesService) {}
 
   ngOnInit() {
+    this.loadList();
+  }
+
+  private loadList() {
     this.roomService.getRoomTypes().subscribe((roomTypes) => {
       this.dataSource = roomTypes;
     });
@@ -34,11 +38,17 @@ export class RoomTypeListComponent implements OnInit {
     return Messages.get('priceDetail_list_noContent');
   }
 
-  delete() {
+  delete(roomType: RoomType) {
     const confirmMessage = Messages.get('delete_confirm', LABEL.room_type);
     this.messagesService.showConfirmMessage(confirmMessage).subscribe((shouldDelete) => {
       if (shouldDelete) {
-        this.messagesService.showSuccessMessage(Messages.get('delete_success', LABEL.room_type));
+        this.roomService.delete(roomType).subscribe(
+          () => {
+            this.messagesService.showSuccessMessage(Messages.get('delete_success', LABEL.room_type));
+            this.loadList();
+          },
+          (error) => this.messagesService.showErrorMessage(error.message)
+        );
       }
     });
   }

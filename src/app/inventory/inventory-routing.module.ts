@@ -28,6 +28,10 @@ const routes: Routes = [
         component: RoomTypeListComponent
       },
       {
+        path: 'typeList/:uuid',
+        component: RoomTypeComponent
+      },
+      {
         path: ':id',
         component: RoomComponent
       },
