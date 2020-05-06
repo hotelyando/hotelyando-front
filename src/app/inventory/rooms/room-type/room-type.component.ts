@@ -85,7 +85,10 @@ export class RoomTypeComponent implements OnInit {
 
     const roomType: RoomType = this.getInfoRoomType();
     this.roomService.saveType(roomType).subscribe(
-      () => this.messagesService.showSuccessMessage(Messages.get('priceDetail_save_success')),
+      (roomTypeSaved) => {
+        this.roomTypeForm.reset(roomTypeSaved, { emitEvent: false });
+        this.messagesService.showSuccessMessage(Messages.get('priceDetail_save_success'));
+      },
       (error) => this.messagesService.showErrorMessage(error.message)
     );
   }
