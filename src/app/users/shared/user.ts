@@ -10,8 +10,6 @@ export interface User {
 }
 
 export interface ChangePassword {
-  hotelId: string;
-  password: string;
+  oldPassword: string;
   newPassword: string;
-  user: string;
 }

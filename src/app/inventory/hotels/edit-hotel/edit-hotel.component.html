@@ -47,21 +47,34 @@
     </mat-form-field>
     <p></p>
 
-    Redes Sociales:
-    <p></p>
-    <button mat-button (click)="addRed()">Adicionar Red Social</button>
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td>Redes Sociales:</td>
+            <td>
+              <mat-icon (click)="addRed()" matTooltip="Adicionar Red Sociales">note_add</mat-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div *ngFor="let red of redes.controls; index as i">
-      <input [formControl]="redes.controls[i]" />
-      <button mat-button (click)="removeRed(i)">Eliminar</button>
-
-      <p></p>
+      <table>
+        <tbody>
+          <tr>
+            <td><input matInput [formControl]="redes.controls[i]" /></td>
+            <td><mat-icon (click)="removeRed(i)">delete</mat-icon></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div>
       <p></p>
-      <button mat-button (click)="edit()">Actualizar</button>
-      <button mat-button (click)="cancel()">Cancelar</button>
+      <button mat-raised-button color="primary" (click)="edit()">Actualizar</button>
+      <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
     </div>
   </div>
 </form>

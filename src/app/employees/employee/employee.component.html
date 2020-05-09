@@ -55,7 +55,7 @@
             </mat-form-field>
 
             <mat-form-field id="email">
-              <input formControlName="email" matInput placeholder="email" required />
+              <input formControlName="email" matInput placeholder="email" required (change)="changeEmail()" />
             </mat-form-field>
 
             <mat-form-field id="phone">
@@ -73,7 +73,6 @@
             </mat-form-field>
 
             <div class="button-container">
-              <button mat-rai sed-button color="primary" (click)="guardar()">Guardar</button>
               <button matStepperNext mat-stroked-button color="primary">Informacion Empleado</button>
             </div>
           </div>
@@ -120,7 +119,6 @@
 
           <div class="button-container">
             <button matStepperPrevious mat-stroked-button color="primary">Información básica</button>
-            <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
             <button matStepperNext mat-stroked-button color="primary">Información Usuario</button>
           </div>
         </form>

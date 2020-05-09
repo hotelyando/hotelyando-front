@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../general/material/material.module';
-import { ActiveNoActivePipe } from '../general/shared/pipes/active-no-active.pipe';
+import { PipesModule } from '../general/pipes/pipes.module';
 import { YesNoPipe } from '../general/shared/pipes/yes-no.pipe';
 import { EditHotelComponent } from './hotels/edit-hotel/edit-hotel.component';
 import { HotelComponent } from './hotels/hotel/hotel.component';
@@ -48,10 +48,9 @@ import { RoomsComponent } from './rooms/rooms/rooms.component';
     RoomTypeListComponent,
     HotelsComponent,
     EditHotelComponent,
-    HotelComponent,
-    ActiveNoActivePipe
+    HotelComponent
   ],
-  imports: [CommonModule, ReactiveFormsModule, MaterialModule, InventoryRoutingModule],
+  imports: [CommonModule, ReactiveFormsModule, MaterialModule, InventoryRoutingModule, PipesModule],
   entryComponents: [PriceDetailComponent]
 })
 export class InventoryModule {}

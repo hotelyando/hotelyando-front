@@ -4,5 +4,6 @@ export const LABEL = {
   person: 'Persona',
   password: 'clave',
   item: 'item',
-  hotel: 'hotel'
+  hotel: 'hotel',
+  employee: 'empleado'
 };
