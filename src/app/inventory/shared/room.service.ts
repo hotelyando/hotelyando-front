@@ -12,11 +12,19 @@ import { Room, RoomType } from './room';
 export class RoomService {
   constructor(private http: HttpClient) {}
 
-  add(room: Room) {
-    const url = environment.apiUrl;
-    this.http.post<any>(`${url}room`, room).subscribe(
-      (data) => console.log('success', data),
-      (error) => console.log('oops', error)
+  save(room: Room): Observable<Room> {
+    console.log('habitación a guardar', room);
+
+    const url = `${environment.apiUrl}room`;
+    let $service = this.http.post<any>(url, room);
+    if (room.uuid) {
+      $service = this.http.put<any>(url, room);
+    }
+    console.log('romtype to save -- ', room);
+
+    return $service.pipe(
+      switchMap((result) => of(result.content)),
+      catchError((error) => throwError(error.error))
     );
   }
 
@@ -26,8 +34,6 @@ export class RoomService {
     if (roomType.uuid) {
       $service = this.http.put<any>(url, roomType);
     }
-    console.log('romtype to save -- ', roomType);
-
     return $service.pipe(
       switchMap((result) => of(result.content)),
       catchError((error) => throwError(error.error))
@@ -47,6 +53,14 @@ export class RoomService {
   getRoomTypes(): Observable<RoomType[]> {
     const url = environment.apiUrl;
     return this.http.get<ResponseList<RoomType>>(`${url}roomtype`).pipe(
+      switchMap((data) => of(data.content)),
+      catchError((error) => throwError(error.error))
+    );
+  }
+
+  getRooms(): Observable<Room[]> {
+    const url = environment.apiUrl;
+    return this.http.get<ResponseList<Room>>(`${url}room`).pipe(
       switchMap((data) => of(data.content)),
       catchError((error) => throwError(error.error))
     );

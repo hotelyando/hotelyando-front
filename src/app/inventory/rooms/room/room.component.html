@@ -12,9 +12,16 @@
                 </mat-form-field>
 
                 <mat-form-field id="type">
+<<<<<<< HEAD
                   <input matInput placeholder="Tipo de habitación" [matAutocomplete]="auto" formControlName="roomType" required />
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRoomTypeDescription">
                     <mat-option *ngFor="let type of types" [value]="type">
+=======
+                  <input matInput placeholder="Tipo de habitación" [matAutocomplete]="autoTypes"
+                    formControlName="roomType" required />
+                  <mat-autocomplete #autoTypes="matAutocomplete" [displayWith]="getRoomTypeDescription">
+                    <mat-option *ngFor="let type of types | async" [value]="type">
+>>>>>>> 6296024c1dd4374169537bf620006c27edae3475
                       <span>{{ type.description }}</span>
                     </mat-option>
                   </mat-autocomplete>
@@ -51,7 +58,7 @@
               </div>
             </div>
             <div class="button-container">
-              <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+              <button mat-raised-button color="primary" (click)="save()">Guardar</button>
               <button matStepperNext mat-stroked-button color="primary">Selecccionar comodidades</button>
             </div>
           </form>
@@ -63,7 +70,7 @@
           <ho-room-comforts (comforts)="updateComforts($event)"></ho-room-comforts>
           <div class="button-container">
             <button matStepperPrevious mat-stroked-button color="primary">Información básica</button>
-            <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+            <button mat-raised-button color="primary" (click)="save()">Guardar</button>
             <button matStepperNext mat-stroked-button color="primary">Ingresar items habitación</button>
           </div>
         </mat-step>
@@ -139,7 +146,7 @@
             </div>
             <div class="button-container">
               <button matStepperPrevious mat-stroked-button color="primary">Selecccionar comodidades</button>
-              <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+              <button mat-raised-button color="primary" (click)="save()">Guardar</button>
             </div>
           </form>
         </mat-step>
