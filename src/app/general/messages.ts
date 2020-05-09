@@ -65,6 +65,9 @@ export class Messages {
     priceDetail_save_success: 'El tipo de habitación fue guardado exitosamente.',
     priceDetail_list_noContent: 'No se han definido tipos de habitación.',
 
+    room_list_no_content: 'No se han definido habitaciones.',
+    room_save_success: 'La habitación fue guardada exitosamente.',
+
     no_message: 'No existe mensaje con código %0'
   };
 

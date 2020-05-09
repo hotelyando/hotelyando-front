@@ -93,6 +93,19 @@ export class RoomTypeComponent implements OnInit {
     );
   }
 
+  reset() {
+    const emptyRoomType: RoomType = {
+      uuid: null,
+      description: null,
+      priceDay: null,
+      priceHour: null,
+      priceDetails: null
+    };
+    this.roomTypeForm.reset(emptyRoomType, { emitEvent: false });
+    this.dataSource.data = [];
+    this.dataSource.filter = '';
+  }
+
   getInfoRoomType(): RoomType {
     const valuesRoom = this.roomTypeForm.value;
     return {

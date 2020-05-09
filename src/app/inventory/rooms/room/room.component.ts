@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper, MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs';
+import { Messages } from 'src/app/general/messages';
+import { MessagesService } from 'src/app/general/shared/messages.service';
 import { Item } from '../../shared/item';
 import { ItemService } from '../../shared/item.service';
 import { ItemInRoom, Room, RoomState, RoomType } from '../../shared/room';
@@ -22,29 +24,20 @@ export class RoomComponent implements OnInit {
   itemsInRoom: ItemInRoom[] = [];
   dataSource: MatTableDataSource<ItemInRoom>;
 
-  types: RoomType[];
+  types: Observable<RoomType[]>;
 
-  private comforts: string[];
+  private comforts: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private itemService: ItemService, private roomService: RoomService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private itemService: ItemService,
+    private roomService: RoomService,
+    private messagesService: MessagesService
+  ) {}
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.itemsInRoom);
-
-    this.types = [
-      {
-        uuid: 'uuid1',
-        description: 'Tipo1',
-        priceDay: 100,
-        priceHour: 10
-      },
-      {
-        uuid: 'uuid2',
-        description: 'Tipo2',
-        priceDay: 200,
-        priceHour: 20
-      }
-    ];
+    this.types = this.roomService.getRoomTypes();
     this.items = this.itemService.list();
 
     this.roomForm = this.formBuilder.group({
@@ -69,14 +62,21 @@ export class RoomComponent implements OnInit {
     });
   }
 
-  guardar() {
+  save() {
     if (!this.roomForm.valid) {
       this.stepper.selectedIndex = 0;
       return;
     }
 
     const room: Room = this.getInfoRoom();
-    this.roomService.add(room);
+    console.log('valido', room);
+    this.roomService.save(room).subscribe(
+      (roomSaved) => {
+        this.roomForm.reset(roomSaved, { emitEvent: false });
+        this.messagesService.showSuccessMessage(Messages.get('room_save_success'));
+      },
+      (error) => this.messagesService.showErrorMessage(error.message)
+    );
   }
 
   getInfoRoom(): Room {
@@ -89,7 +89,7 @@ export class RoomComponent implements OnInit {
       maximumPersons: valuesRoom.maxPersons,
       numberBeds: valuesRoom.noBeds,
       freeParking: valuesRoom.freeParking,
-      roomType_uuid: valuesRoom.roomType,
+      roomType_uuid: valuesRoom.roomType.uuid,
       items: this.itemsInRoom,
       comforts: this.comforts,
       state: RoomState.DISPONIBLE
@@ -97,14 +97,10 @@ export class RoomComponent implements OnInit {
   }
 
   getItemDescription(item: Item) {
-    // return item.description;
-    // return 'Item';
     return item ? item.description : '';
   }
 
   getRoomTypeDescription(roomType: RoomType) {
-    // return item.description;
-    // return 'Item';
     return roomType ? roomType.description : '';
   }
 
@@ -156,10 +152,8 @@ export class RoomComponent implements OnInit {
   }
 
   removeItem(itemInRoom: ItemInRoom) {
-    console.log('borra => ', itemInRoom);
-
     this.dataSource.data = this.dataSource.data.filter((item) => item.item_uuid != itemInRoom.item_uuid);
-    // this.dataSource.filter = '';
+    this.dataSource.filter = '';
   }
 
   updateComforts(comforts: string[]) {
