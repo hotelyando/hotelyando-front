@@ -3,11 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatOption, MatSelectChange } from '@angular/material';
 import { Router } from '@angular/router';
 import { DocumentType, DOCUMENT_TYPES } from 'src/app/clients/shared/document-type';
-import { messages } from 'src/app/general/messages';
+import { messages, Messages } from 'src/app/general/messages';
 import { TypeContract, TYPE_CONTRACTS } from 'src/app/general/shared/contractType';
 import { Country } from 'src/app/general/shared/country';
 import { CountryService } from 'src/app/general/shared/country.service';
 import { Fecha } from 'src/app/general/shared/fecha';
+import { LABEL } from 'src/app/general/shared/label';
+import { MessagesService } from 'src/app/general/shared/messages.service';
 import { State, STATES } from 'src/app/general/shared/state';
 import { Person } from 'src/app/persons/shared/person';
 import { PersonService } from 'src/app/persons/shared/person.service';
@@ -53,7 +55,8 @@ export class EmployeeComponent implements OnInit {
     private personService: PersonService,
     private employeeService: EmployeeService,
     private userService: UserService,
-    private employeeHotelService: EmployeeHotelService
+    private employeeHotelService: EmployeeHotelService,
+    private messagesService: MessagesService
   ) {}
 
   ngOnInit() {
@@ -157,33 +160,6 @@ export class EmployeeComponent implements OnInit {
     return personaForm;
   }
 
-  guardar3() {
-    this.employedHotel = {
-      employee: this.setEmpleado(),
-      user: this.setUser(),
-      person: this.setPerson()
-    };
-
-    this.employeeHotelService.save(this.employedHotel).subscribe(
-      (data) => {
-        Swal.fire({
-          text: messages.editUserError,
-          icon: messages.error,
-          width: messages.widthWindowMessage,
-          dismissOnDestroy: false
-        });
-        this.router.navigate([`/app/employees/list`]);
-      },
-      (error) => {
-        Swal.fire({
-          text: messages.editUserError,
-          icon: messages.error,
-          width: messages.widthWindowMessage
-        });
-      }
-    );
-  }
-
   private filterPersons() {
     this.personForm.get('document').valueChanges.subscribe((personVal) => {
       if (personVal != '') {
@@ -238,99 +214,80 @@ export class EmployeeComponent implements OnInit {
     this.typeDocumentValue = selectedData.value;
   }
 
+  changeEmail() {
+    if (!this.personForm.get('email').invalid) {
+      const confirmMessage = Messages.get('setEmailtoLogin', this.personForm.get('email').value);
+      this.messagesService.showConfirmMessage(confirmMessage).subscribe((shouldDelete) => {
+        this.userForm.reset();
+        if (shouldDelete) {
+          if (this.userForm.get('user').value == null) {
+            this.userForm.setValue({
+              user: this.personForm.get('email').value,
+              clave: this.userForm.get('clave').value,
+              rol: this.userForm.get('rol').value,
+              state: this.userForm.get('state').value
+            });
+          } else {
+            this.userForm.setValue({
+              user: null,
+              clave: this.userForm.get('clave').value,
+              rol: this.userForm.get('rol').value,
+              state: this.userForm.get('state').value
+            });
+          }
+        }
+      });
+    }
+  }
+
   guardar() {
     let persona = this.setPerson();
-    console.log(this.personID);
-    if (persona != null && this.personID == null) {
+
+    if (persona != null) {
       console.log(persona);
-      this.personService.add(persona).subscribe(
-        (data) => {
-          this.personaSave = data;
+      this.personService.add(persona).subscribe((data) => {
+        this.personaSave = data;
 
-          if (this.personaSave.uuid != null) {
-            this.personID = this.personaSave.uuid;
-            console.log('usuario>>>', this.setUser());
-            this.userService.add(this.setUser()).subscribe(
-              (data) => {
-                try {
-                  this.usuarioSave = data;
+        if (this.personaSave.uuid != null) {
+          this.personID = this.personaSave.uuid;
+          //  console.log('usuario>>>', this.setUser());
+          this.userService.add(this.setUser()).subscribe(
+            (data) => {
+              this.usuarioSave = data;
 
-                  if (this.usuarioSave.uuid != null) {
-                    this.userID = this.usuarioSave.uuid;
-                    this.employeeService.save(this.setEmpleado()).subscribe(
-                      (data) => {
-                        let uiddEmpleado = data.uuid;
-                        console.log('UIII>>>', uiddEmpleado);
-                        if (uiddEmpleado != null) {
-                          Swal.fire({
-                            text: messages.addUserSuccess,
-                            icon: messages.success,
-                            width: messages.widthWindowMessage,
-                            dismissOnDestroy: false
-                          });
-                          this.router.navigate([`/app/employees/list`]);
-                        } else {
-                          Swal.fire({
-                            text: messages.addEmployeeError,
-                            icon: messages.error,
-                            width: messages.widthWindowMessage,
-                            dismissOnDestroy: false
-                          });
-                        }
-                      },
-                      (error) => {
-                        Swal.fire({
-                          text: messages.addEmployeeError,
-                          icon: messages.error,
-                          width: messages.widthWindowMessage,
-                          dismissOnDestroy: false
-                        });
-                      }
-                    );
-                  }
-                } catch (error) {
-                  this.personService.delete(this.personaSave).subscribe(
-                    (data) => {
-                      Swal.fire({
-                        text: messages.addUserError + ' : ' + error,
-                        icon: messages.error
-                      });
-                    },
-                    (error) => {
-                      Swal.fire({
-                        text: messages.deletePersonError + ' : ' + error,
-                        icon: messages.error
-                      });
-                    }
-                  );
-                }
-              },
-              (err) => {
-                this.personService.delete(this.personaSave).subscribe(
+              if (this.usuarioSave.uuid != null) {
+                this.userID = this.usuarioSave.uuid;
+                this.employeeService.save(this.setEmpleado()).subscribe(
                   (data) => {
-                    Swal.fire({
-                      text: messages.addUserError + err,
-                      icon: messages.error
-                    });
+                    let uiddEmpleado = data.uuid;
+                    console.log('UIII>>>', uiddEmpleado);
+                    if (uiddEmpleado != null) {
+                      this.messagesService.showSuccessMessage(Messages.get('insert_success', LABEL.employee));
+
+                      this.router.navigate([`/app/employees/list`]);
+                    } else {
+                      this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.employee, ''));
+                    }
                   },
                   (error) => {
-                    Swal.fire({
-                      text: messages.deletePersonError + ': ' + error,
-                      icon: messages.error
-                    });
+                    this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.employee, error));
                   }
                 );
               }
-            );
-          }
-        },
-        (err) => {
-          Swal.fire({
-            text: messages.addUserError + ': ' + err,
-            icon: messages.error
-          });
+            },
+            (error) => {
+              this.personService.delete(this.personaSave).subscribe(
+                (data) => {
+                  console.log('Borro la persona:', data);
+                },
+                (error) => {
+                  this.messagesService.showErrorMessage(Messages.get('insert_error', LABEL.employee, error));
+                }
+              );
+            }
+          );
         }
-      );
+      });
     } else {
       let user = this.setPerson();
       if (user != null) {
@@ -354,11 +311,6 @@ export class EmployeeComponent implements OnInit {
             });
           }
         );
-      } else {
-        Swal.fire({
-          text: messages.addUserError + ': ' + messages.emptydDataForm,
-          icon: messages.error
-        });
       }
     }
   }

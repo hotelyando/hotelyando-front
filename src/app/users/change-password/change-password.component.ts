@@ -35,10 +35,8 @@ export class ChangePasswordComponent implements OnInit {
       this.messagesService.showErrorMessage(Messages.get('edit_error', LABEL.password, ''));
     }
     let changePassword: ChangePassword = {
-      password: this.changePasswordForm.get('password').value,
-      newPassword: this.changePasswordForm.get('newPassword').value,
-      hotelId: '',
-      user: localStorage.getItem('userLogged')
+      oldPassword: this.changePasswordForm.get('password').value,
+      newPassword: this.changePasswordForm.get('newPassword').value
     };
     console.log('usuario h:', changePassword);
     this.userServide.changePassword(changePassword).subscribe(
