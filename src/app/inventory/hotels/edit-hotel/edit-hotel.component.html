@@ -1,80 +1,143 @@
 <form [formGroup]="editFormHotel">
-  <div class="hotel-container">
-    <h6>Actualizar Hotel</h6>
-
-    <mat-form-field>
-      <input matInput placeholder="Nombre" formControlName="name" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Direccion" formControlName="address" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Correo" formControlName="email" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="telefono" formControlName="phone" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Celular" formControlName="cellPhone" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="nit" formControlName="nit" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="altitude" formControlName="altitude" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="latitud" formControlName="latitude" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="checkIn" formControlName="checkIn" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="checkOut" formControlName="checkOut" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="taxPercentage" formControlName="taxPercentage" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="timeReservation" formControlName="timeReservation" />
-    </mat-form-field>
-    <p></p>
-
-    <div>
-      <table>
-        <tbody>
-          <tr>
-            <td>Redes Sociales:</td>
-            <td>
-              <mat-icon (click)="addRed()" matTooltip="Adicionar Red Sociales">note_add</mat-icon>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div *ngFor="let red of redes.controls; index as i">
-      <table>
-        <tbody>
-          <tr>
-            <td><input matInput [formControl]="redes.controls[i]" /></td>
-            <td><mat-icon (click)="removeRed(i)">delete</mat-icon></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div>
+  <mat-horizontal-stepper #stepper>
+    <mat-step [stepControl]="editFormHotel">
       <p></p>
-      <button mat-raised-button color="primary" (click)="edit()">Actualizar</button>
-      <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
-    </div>
-  </div>
+
+      <div class="mat-table">
+        <div class="mat-row">
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput placeholder="NIT" formControlName="nit" />
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput placeholder="Nombre" formControlName="name" />
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput placeholder="Dirección" formControlName="address" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="mat-table">
+        <div class="mat-row">
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput placeholder="Telefono" formControlName="phone" />
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput placeholder="Celular" formControlName="cellPhone" />
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput placeholder="Correo" formControlName="email" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="mat-table">
+        <div class="mat-row">
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput type="number" placeholder="Altitud" formControlName="altitude" />
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput type="number" placeholder="Latitud" formControlName="latitude" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <p></p>
+
+      <div class="mat-header-row">
+        <div class="mat-header-cell">Datos para Hospedaje y reserva</div>
+      </div>
+
+      <p></p>
+
+      <div class="mat-table">
+        <div class="mat-row">
+          <div class="mat-cell">
+            <mat-form-field>
+              <input
+                formControlName="checkIn"
+                matInput
+                [ngxTimepicker]="pickerStartTime"
+                [format]="24"
+                placeholder="Hora check-In"
+                readonly
+              />
+              <ngx-material-timepicker #pickerStartTime [minutesGap]="10"></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input
+                formControlName="checkOut"
+                matInput
+                [ngxTimepicker]="pickerEndTime"
+                [format]="24"
+                placeholder="Hora check-out"
+                readonly
+              />
+              <ngx-material-timepicker #pickerEndTime [minutesGap]="10"></ngx-material-timepicker>
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput type="number" min="0" placeholder="Porcentaje de IVA" formControlName="taxPercentage" />
+            </mat-form-field>
+          </div>
+          <div class="mat-cell">
+            <mat-form-field>
+              <input matInput type="number" min="0" placeholder="Duración Reserve" formControlName="timeReservation" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="mat-content-center">
+        <div class="mat-header-row">
+          <div class="mat-header-cell">
+            Redes Sociales <mat-icon (click)="addRed()" matTooltip="Adicionar Red Sociales"> note_add</mat-icon>
+          </div>
+        </div>
+
+        <div *ngFor="let red of redes.controls; index as i">
+          <div class="mat-row">
+            <div class="mat-header-cell"><input matInput [formControl]="redes.controls[i]" /></div>
+            <div class="mat-header-cell">
+              <mat-icon (click)="removeRed(i)">delete</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mat-button-center">
+        <button mat-raised-button color="primary" (click)="edit()">Actualizar</button>
+        <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
+      </div>
+    </mat-step>
+
+    <mat-step optional>
+      <div>
+        <ng-template matStepLabel>Comodidades</ng-template>
+        <p>Selecciona las comodidades que posee o estan incluidas con esta hotel:</p>
+        <ho-room-comforts (comforts)="updateComforts($event)"></ho-room-comforts>
+      </div>
+
+      <div class="mat-button-center">
+        <button mat-raised-button color="primary" (click)="edit()">Actualizar</button>
+        <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
 </form>

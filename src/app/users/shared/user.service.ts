@@ -44,6 +44,23 @@ export class UserService {
     );
   }
 
+  remove(userId: string): Observable<any> {
+    const url = environment.apiUrl;
+
+    return this.http.delete<any>(`${url}user/` + userId).pipe(
+      switchMap((data) => of(data.content)),
+      catchError((error) => {
+        console.log(userId);
+        console.log('ops:::', error);
+        if (error.status == 400) {
+          return throwError(error.error.message);
+        } else {
+          return throwError(messages.tecnicalError);
+        }
+      })
+    );
+  }
+
   list(): Observable<User[]> {
     let usuarios: User[];
     const url = environment.apiUrl;

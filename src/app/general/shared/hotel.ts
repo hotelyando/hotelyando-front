@@ -21,6 +21,7 @@ export interface Hotel /*{
   parameterize: ParameterHotel;
   phone: string;
   socialNetworks: string[];
+  comforts?: string[];
   state: true;
   uuid: string;
 }

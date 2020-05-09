@@ -4,3 +4,31 @@
   width: 75%;
   margin: auto;
 }
+
+.mat-table {
+  display: block;
+  font-family: Tahoma, Verdana;
+}
+
+.mat-row,
+.mat-header-row {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+}
+
+.mat-cell,
+.mat-header-cell {
+  flex: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+.mat-content-center {
+  margin: auto;
+  width: 200%;
+}
+.mat-button-center {
+  margin: auto;
+  width: 50%;
+}

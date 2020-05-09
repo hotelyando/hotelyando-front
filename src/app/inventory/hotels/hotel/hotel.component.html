@@ -24,13 +24,36 @@
     <div class="mat-header-cell">Correo</div>
   </div>
   <div class="mat-row">
-    <div class="mat-cell">{{ hotel.nit }}</div>
-    <div class="mat-cell">{{ hotel.name }}</div>
+    <div class="mat-cell">{{ hotel.phone }}</div>
+    <div class="mat-cell">{{ hotel.cellPhone }}</div>
     <div class="mat-cell">{{ hotel.email }}</div>
   </div>
 </div>
 <p></p>
-<div *ngIf="hotel.socialNetworks.length > 0">
+
+<div class="mat-header-row">
+  <div class="mat-header-cell">Datos para Hospedaje y reserva</div>
+</div>
+
+<p></p>
+
+<div class="mat-table">
+  <div class="mat-header-row">
+    <div class="mat-header-cell">Check-in</div>
+    <div class="mat-header-cell">Check-out</div>
+    <div class="mat-header-cell">IVA %</div>
+    <div class="mat-header-cell">Tiempo de Reserva</div>
+  </div>
+
+  <div class="mat-row">
+    <div class="mat-cell">{{ hotel.parameterize.checkIn }}</div>
+    <div class="mat-cell">{{ hotel.parameterize.checkOut }}</div>
+    <div class="mat-cell">{{ hotel.parameterize.taxPercentage }}</div>
+    <div class="mat-cell">{{ hotel.parameterize.timeReservation }}</div>
+  </div>
+</div>
+<p></p>
+<div>
   <div class="mat-table">
     <div class="mat-header-row">
       <div class="mat-header-cell">Redes Sociales</div>
@@ -41,27 +64,18 @@
       </div>
     </div>
   </div>
-  <p></p>
-
-  <div class="mat-header-row">
-    <div class="mat-header-cell">Datos para Hospedaje y reserva</div>
-  </div>
 
   <p></p>
-
+</div>
+<div>
   <div class="mat-table">
     <div class="mat-header-row">
-      <div class="mat-header-cell">Check-in</div>
-      <div class="mat-header-cell">Check-out</div>
-      <div class="mat-header-cell">IVA %</div>
-      <div class="mat-header-cell">Tiempo de Reserva</div>
+      <div class="mat-header-cell">Comodidades</div>
     </div>
-
     <div class="mat-row">
-      <div class="mat-cell">{{ hotel.parameterize.checkIn }}</div>
-      <div class="mat-cell">{{ hotel.parameterize.checkOut }}</div>
-      <div class="mat-cell">{{ hotel.parameterize.taxPercentage }}</div>
-      <div class="mat-cell">{{ hotel.parameterize.timeReservation }}</div>
+      <div class="mat-cell">
+        <span *ngFor="let comfort of hotel.comforts"> &nbsp; {{ comfort }}&nbsp; </span>
+      </div>
     </div>
   </div>
 

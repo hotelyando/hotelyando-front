@@ -12,8 +12,7 @@
                 </mat-form-field>
 
                 <mat-form-field id="type">
-                  <input matInput placeholder="Tipo de habitación" [matAutocomplete]="auto" formControlName="roomType"
-                    required />
+                  <input matInput placeholder="Tipo de habitación" [matAutocomplete]="auto" formControlName="roomType" required />
                   <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRoomTypeDescription">
                     <mat-option *ngFor="let type of types" [value]="type">
                       <span>{{ type.description }}</span>
@@ -38,8 +37,14 @@
               </div>
 
               <mat-form-field id="description">
-                <textarea formControlName="description" matInput cdkTextareaAutosize cdkAutosizeMinRows="2"
-                  cdkAutosizeMaxRows="5" placeholder="Descripción general"></textarea>
+                <textarea
+                  formControlName="description"
+                  matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5"
+                  placeholder="Descripción general"
+                ></textarea>
               </mat-form-field>
               <div id="freeParking">
                 <mat-slide-toggle formControlName="freeParking">Parqueadero gratis</mat-slide-toggle>
@@ -109,7 +114,7 @@
                   </ng-container>
                   <ng-container matColumnDef="requireCheck">
                     <th mat-header-cell *matHeaderCellDef>Revisión</th>
-                    <td mat-cell *matCellDef="let itemInRoom">{{ itemInRoom.requireCheck | yesNo}}</td>
+                    <td mat-cell *matCellDef="let itemInRoom">{{ itemInRoom.requireCheck | yesNo }}</td>
                   </ng-container>
 
                   <ng-container matColumnDef="remove">

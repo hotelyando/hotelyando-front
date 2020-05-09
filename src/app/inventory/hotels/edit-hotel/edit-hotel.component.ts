@@ -16,7 +16,10 @@ export class EditHotelComponent implements OnInit {
   hotel: Hotel;
   editFormHotel: FormGroup;
   redes = new FormArray([]);
+  comodidades = new FormArray([]);
+
   redesSociales = [];
+  private comforts: string[];
 
   constructor(
     private hotelService: HotelService,
@@ -93,6 +96,7 @@ export class EditHotelComponent implements OnInit {
       },
       phone: this.editFormHotel.get('phone').value,
       socialNetworks: this.listRedes(),
+      comforts: this.comforts,
       state: true,
       uuid: ''
     };
@@ -104,10 +108,26 @@ export class EditHotelComponent implements OnInit {
     this.redes.removeAt(indice);
   }
 
+  addComfort() {
+    this.comodidades.push(new FormControl(''));
+  }
+  removeComfort(indice: number) {
+    this.comodidades.removeAt(indice);
+  }
+
   listRedes(): string[] {
     let datos = [];
     this.redes.controls.forEach((element) => {
-      console.log(element.value);
+      if (element.value != null && element.value.replace(/\s/g, '') != '') {
+        datos.push(element.value);
+      }
+    });
+    return datos;
+  }
+
+  listComforts(): string[] {
+    let datos = [];
+    this.comodidades.controls.forEach((element) => {
       if (element.value != null && element.value.replace(/\s/g, '') != '') {
         datos.push(element.value);
       }
@@ -122,7 +142,7 @@ export class EditHotelComponent implements OnInit {
     }
 
     this.setHotel();
-
+    console.log(this.hotel);
     this.hotelService.edit(this.hotel).subscribe(
       (data) => {
         this.messagesService.showSuccessMessage(Messages.get('edit_success', LABEL.hotel));
@@ -133,6 +153,10 @@ export class EditHotelComponent implements OnInit {
     );
   }
   cancel() {
-    this.router.navigate([`/app/hotel/show`]);
+    this.router.navigate([`/app/hotels/show`]);
+  }
+
+  updateComforts(comforts: string[]) {
+    this.comforts = comforts;
   }
 }

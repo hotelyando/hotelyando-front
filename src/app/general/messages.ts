@@ -59,6 +59,7 @@ export class Messages {
     dataFormError: ' Falta diligenciar uno de los datos para %0 ',
 
     confirm_logout: 'Desea salir del sistema?',
+    confirm_delete: 'Desea eleiminar el(la) %0?',
 
     priceDetail_info_incomplete:
       'Para definir un precio <b>personalizado</b>, debe definir por lo menos para que día aplicará y un precio por día u hora.',
