@@ -1,0 +1,24 @@
+.external-title {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: auto;
+}
+
+.external-container {
+  display: flex;
+  width: 40%;
+  border: 1px solid #7b7988;
+  border-radius: 10px;
+  margin: 10% auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  div {
+    display: flex;
+  }
+}

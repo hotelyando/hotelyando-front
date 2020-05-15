@@ -35,6 +35,7 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'external', redirectTo: 'externalPassword', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];
 

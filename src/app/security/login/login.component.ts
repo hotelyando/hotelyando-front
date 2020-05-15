@@ -27,12 +27,15 @@ export class LoginComponent implements OnInit {
     const user = this.loginForm.get('user').value;
     const pass = this.loginForm.get('password').value;
 
-    this.authenticationService.login(user, pass).subscribe(successLoggin => {
+    this.authenticationService.login(user, pass).subscribe((successLoggin) => {
       if (successLoggin) {
         this.router.navigate(['/app']);
       } else {
         this.error = 'Fallo el login';
       }
     });
+  }
+  external() {
+    this.router.navigate(['/external']);
   }
 }

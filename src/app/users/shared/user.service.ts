@@ -5,7 +5,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { messages } from 'src/app/general/messages';
 import { Response, ResponseList } from 'src/app/general/shared/response';
 import { environment } from 'src/environments/environment';
-import { ChangePassword, User } from './user';
+import { ChangePassword, SendPassword, User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -94,7 +94,22 @@ export class UserService {
   changePassword(changePassword: ChangePassword): Observable<string> {
     const url = environment.apiUrl;
 
-    return this.http.put<Response<User>>(`${url}user/change/  `, changePassword).pipe(
+    return this.http.put<Response<User>>(`${url}user/change/`, changePassword).pipe(
+      switchMap((data) => of(data.message)),
+      catchError((error) => {
+        if (error.status == 400) {
+          return throwError(error.error.message);
+        } else {
+          return throwError(messages.tecnicalError);
+        }
+      })
+    );
+  }
+
+  sendTokenUser(login: SendPassword): Observable<string> {
+    const url = environment.apiUrl;
+
+    return this.http.post<Response<User>>(`${url}user/external/`, login).pipe(
       switchMap((data) => of(data.message)),
       catchError((error) => {
         if (error.status == 400) {

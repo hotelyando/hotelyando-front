@@ -1,0 +1,19 @@
+<p></p>
+<div class="external-title">
+  <mat-label>Por favor ingrese su correo</mat-label>
+</div>
+
+<div class="external-container">
+  <div>
+    <form [formGroup]="sendForm">
+      <div>
+        <span>{{ error }}</span>
+      </div>
+      <mat-form-field>
+        <input formControlName="user" matInput placeholder="Usuario" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="send()">Solicitar Clave</button>
+    </form>
+  </div>
+</div>

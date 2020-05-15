@@ -13,3 +13,7 @@ export interface ChangePassword {
   oldPassword: string;
   newPassword: string;
 }
+
+export interface SendPassword {
+  login: string;
+}

@@ -54,7 +54,8 @@ export class Messages {
     edit_success: 'El %0 fue actualizado exitosamente',
     edit_error: 'Error al actualizar el %0  %1',
     retrieve_error: ' Error al consultar los datos de %0',
-
+    empty_user: 'Debe ingresar el %0',
+    message_generic: '%0',
     setEmailtoLogin: '¿Desea colocar el email %0 como usuario?',
     dataFormError: ' Falta diligenciar uno de los datos para %0 ',
 
