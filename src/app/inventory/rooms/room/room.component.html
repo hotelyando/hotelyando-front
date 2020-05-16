@@ -12,16 +12,10 @@
                 </mat-form-field>
 
                 <mat-form-field id="type">
-<<<<<<< HEAD
-                  <input matInput placeholder="Tipo de habitación" [matAutocomplete]="auto" formControlName="roomType" required />
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="getRoomTypeDescription">
-                    <mat-option *ngFor="let type of types" [value]="type">
-=======
                   <input matInput placeholder="Tipo de habitación" [matAutocomplete]="autoTypes"
                     formControlName="roomType" required />
                   <mat-autocomplete #autoTypes="matAutocomplete" [displayWith]="getRoomTypeDescription">
                     <mat-option *ngFor="let type of types | async" [value]="type">
->>>>>>> 6296024c1dd4374169537bf620006c27edae3475
                       <span>{{ type.description }}</span>
                     </mat-option>
                   </mat-autocomplete>
@@ -44,14 +38,8 @@
               </div>
 
               <mat-form-field id="description">
-                <textarea
-                  formControlName="description"
-                  matInput
-                  cdkTextareaAutosize
-                  cdkAutosizeMinRows="2"
-                  cdkAutosizeMaxRows="5"
-                  placeholder="Descripción general"
-                ></textarea>
+                <textarea formControlName="description" matInput cdkTextareaAutosize cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5" placeholder="Descripción general"></textarea>
               </mat-form-field>
               <div id="freeParking">
                 <mat-slide-toggle formControlName="freeParking">Parqueadero gratis</mat-slide-toggle>
