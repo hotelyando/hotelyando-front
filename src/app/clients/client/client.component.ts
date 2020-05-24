@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Client } from '../shared/client';
 import { Country } from '../shared/country';
-import { DocumentType, DOCUMENT_TYPES } from '../shared/document-type';
+import { DocumentType, DOCUMENT_TYPES_LIST } from '../shared/document-type';
 
 @Component({
   selector: 'ho-client',
@@ -30,29 +29,29 @@ export class ClientComponent implements OnInit {
       phone: [null, Validators.required],
       country: [null, Validators.required]
     });
-    this.documentTypes = DOCUMENT_TYPES;
+    this.documentTypes = DOCUMENT_TYPES_LIST;
 
     this.filteredCountries = this.countries;
     this.filterCountries();
   }
 
   private filterCountries() {
-    this.clientForm.get('country').valueChanges.subscribe(countryVal => {
-      this.filteredCountries = this.countries.filter(option => option.name.toLowerCase().includes(countryVal.toLowerCase()));
+    this.clientForm.get('country').valueChanges.subscribe((countryVal) => {
+      this.filteredCountries = this.countries.filter((option) => option.name.toLowerCase().includes(countryVal.toLowerCase()));
     });
   }
 
   guardar() {
-    const cf: Client = {
-      uuid: this.clientForm.get('uuid').value,
-      documentType: this.clientForm.get('documentType').value,
-      document: this.clientForm.get('document').value,
-      name: this.clientForm.get('name').value,
-      email: this.clientForm.get('email').value,
-      bithdate: this.clientForm.get('bithdate').value,
-      phone: this.clientForm.get('phone').value,
-      country: null
-    };
-    console.log('guardar cliente', cf);
+    // const cf: Client = {
+    //   uuid: this.clientForm.get('uuid').value,
+    //   documentType: CEDULA,
+    //   document: this.clientForm.get('document').value,
+    //   name: this.clientForm.get('name').value,
+    //   email: this.clientForm.get('email').value,
+    //   bithdate: this.clientForm.get('bithdate').value,
+    //   phone: this.clientForm.get('phone').value,
+    //   country: null
+    // };
+    // console.log('guardar cliente', cf);
   }
 }

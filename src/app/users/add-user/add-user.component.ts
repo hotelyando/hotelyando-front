@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatOption, MatSelectChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { DocumentType, DOCUMENT_TYPES } from 'src/app/clients/shared/document-type';
+import { DocumentType, DOCUMENT_TYPES_LIST } from 'src/app/clients/shared/document-type';
 import { Messages } from 'src/app/general/messages';
 import { Country } from 'src/app/general/shared/country';
 import { CountryService } from 'src/app/general/shared/country.service';
@@ -74,7 +74,7 @@ export class AddUserComponent implements OnInit {
     });
 
     this.estados = STATES;
-    this.documentTypes = DOCUMENT_TYPES;
+    this.documentTypes = DOCUMENT_TYPES_LIST;
 
     this.userForm = this.formBuilder.group({
       user: [null, Validators.email],
@@ -115,19 +115,19 @@ export class AddUserComponent implements OnInit {
   setPerson(): Person {
     if (this.personForm.valid) {
       let personaForm: Person = {
-        document: this.personForm.get('document').value,
         documentType: this.personForm.get('documentType').value,
+        document: this.personForm.get('document').value,
+        name: this.personForm.get('firstName').value + ' ' + this.personForm.get('lastName').value,
+        lastName: this.personForm.get('lastName').value,
+        firstName: this.personForm.get('firstName').value,
         country: {
           code: '',
-          name: this.pais,
-          uuid: this.personForm.get('country').value
+          name: this.pais
+          // uuid: this.personForm.get('country').value
         },
 
         cellPhone: this.personForm.get('cellphone').value,
-        email: this.personForm.get('email').value,
-        lastName: this.personForm.get('lastName').value,
-        firstName: this.personForm.get('firstName').value,
-        uuid: ''
+        email: this.personForm.get('email').value
       };
       return personaForm;
     } else {

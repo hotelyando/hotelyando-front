@@ -2,11 +2,18 @@ export interface Sale {
   uuid: string;
   hotelId: string;
   date: Date;
-  state: string;
+  state: SaleState;
   client: Client;
   values: Value;
   items: Item[];
   rooms: Room[];
+}
+
+export enum SaleState {
+  COTIZACION = 'Cotización',
+  EN_PROCESO = 'En proceso',
+  PAGADA = 'Pagada',
+  FACTURADA = 'Facturada'
 }
 export interface Value {
   gross: bigint;

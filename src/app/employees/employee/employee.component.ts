@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatOption, MatSelectChange } from '@angular/material';
 import { Router } from '@angular/router';
-import { DocumentType, DOCUMENT_TYPES } from 'src/app/clients/shared/document-type';
+import { DocumentType, DOCUMENT_TYPES_LIST } from 'src/app/clients/shared/document-type';
 import { messages, Messages } from 'src/app/general/messages';
 import { TypeContract, TYPE_CONTRACTS } from 'src/app/general/shared/contractType';
 import { Country } from 'src/app/general/shared/country';
@@ -60,7 +60,7 @@ export class EmployeeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.documentTypes = DOCUMENT_TYPES;
+    this.documentTypes = DOCUMENT_TYPES_LIST;
     this.estados = STATES;
     this.tiposContrato = TYPE_CONTRACTS;
     this.personForm = this.formBuilder.group({
@@ -142,8 +142,8 @@ export class EmployeeComponent implements OnInit {
       documentType: this.personForm.get('documentType').value,
       country: {
         code: this.personForm.get('country').value.code,
-        name: this.personForm.get('country').value.name,
-        uuid: this.personForm.get('country').value.uuid
+        name: this.personForm.get('country').value.name
+        // uuid: this.personForm.get('country').value.uuid
       },
 
       address: this.personForm.get('address').value,
@@ -153,6 +153,7 @@ export class EmployeeComponent implements OnInit {
       email: this.personForm.get('email').value,
       lastName: this.personForm.get('lastName').value,
       firstName: this.personForm.get('firstName').value,
+      name: this.personForm.get('firstName').value + ' ' + this.personForm.get('lastName').value,
       uuid: this.personID,
       phone: this.personForm.get('phone').value
     };

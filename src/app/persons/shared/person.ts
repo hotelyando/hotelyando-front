@@ -1,17 +1,17 @@
+import { Country } from 'src/app/clients/shared/country';
+
 export interface Person {
-  address?: string;
-  birthdate?: string;
-  cellPhone: string;
-  country: {
-    code: string;
-    name: string;
-    uuid: string;
-  };
-  document: string;
+  uuid?: string;
   documentType: string;
-  email: string;
-  lastName: string;
+  document: string;
+  name: string;
+  // TODO: borrar first y lastname
   firstName: string;
+  lastName: string;
+  email: string;
+  birthdate?: string;
+  address?: string;
   phone?: string;
-  uuid: string;
+  cellPhone?: string;
+  country: Country;
 }

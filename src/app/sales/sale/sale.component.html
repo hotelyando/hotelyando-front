@@ -1,0 +1,24 @@
+<mat-card>
+  <div class="form-container">
+    <form [formGroup]="saleForm">
+      <mat-card-header>
+        <mat-card-title>Realizar venta</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="d-flex">
+          <mat-form-field id="client">
+            <input matInput placeholder="Cliente" [matAutocomplete]="autoClients" formControlName="client" required />
+            <mat-autocomplete #autoClients="matAutocomplete" [displayWith]="getClientDescription">
+              <mat-option *ngFor="let client of clients | async" [value]="client">
+                <span>{{ client.name }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Guardar</button>
+      </mat-card-actions>
+    </form>
+  </div>
+</mat-card>
