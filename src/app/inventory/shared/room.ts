@@ -7,7 +7,7 @@ export interface Room {
   maximumPersons: number; // número máximo de personas que pueden hospedarse en la habitación
   numberBeds: number; // número camas en la habitación
   freeParking: boolean; // inidica si la habitación incluye parqueadero gratis
-  roomType_uuid: string; // identificación del tipo de habitación
+  roomType: string; // identificación del tipo de habitación
   items?: ItemInRoom[]; // lista de items que pueden estar disponibles en la habitación para ser vendidos
   comforts?: string[]; // lista de códigos de las comodidades con las que cuenta la habitación (wifi, ascensor, nevera, caja fuerte ...)
   state: RoomState; // estado en el que se encuentra la habitación

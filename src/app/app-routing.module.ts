@@ -5,6 +5,7 @@ import { EmployeesModule } from './employees/employees.module';
 import { HomeComponent } from './general/home/home.component';
 import { InventoryModule } from './inventory/inventory.module';
 import { ReportsModule } from './reports/reports.module';
+import { SalesModule } from './sales/sales.module';
 import { UsersModule } from './users/users.module';
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => InventoryModule
+      },
+      {
+        path: '',
+        loadChildren: () => SalesModule
       },
       {
         path: '',

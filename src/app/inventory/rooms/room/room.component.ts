@@ -89,7 +89,7 @@ export class RoomComponent implements OnInit {
       maximumPersons: valuesRoom.maxPersons,
       numberBeds: valuesRoom.noBeds,
       freeParking: valuesRoom.freeParking,
-      roomType_uuid: valuesRoom.roomType.uuid,
+      roomType: valuesRoom.roomType.uuid,
       items: this.itemsInRoom,
       comforts: this.comforts,
       state: RoomState.DISPONIBLE
