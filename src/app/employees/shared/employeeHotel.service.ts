@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { messages } from 'src/app/general/messages';
 import { Response } from 'src/app/general/shared/response';
-import { Person } from 'src/app/persons/shared/person';
+import { Person } from 'src/app/rrhh/shared/person/person';
 import { environment } from 'src/environments/environment';
 import { EmployeeHotel } from './empleadoHotel';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Person } from 'src/app/persons/shared/person';
-import { PersonService } from 'src/app/persons/shared/person.service';
+import { Person } from 'src/app/rrhh/shared/person/person';
+import { PersonService } from 'src/app/rrhh/shared/person/person.service';
 import { Client, SaleState } from '../shared/sale';
 
 @Component({
@@ -28,7 +28,7 @@ export class SaleComponent implements OnInit {
       rooms: [null]
     });
 
-    this.clients = this.personService.findAll();
+    // this.clients = this.personService.findAll();
   }
 
   getClientDescription(client: Client) {

@@ -14,10 +14,14 @@ const routes: Routes = [
         component: SalesListComponent
       },
       {
-        path: ':id',
+        path: 'new',
         component: SaleComponent
       },
-      { path: '', redirectTo: 'list', pathMatch: 'full' }
+      {
+        path: ':id',
+        component: SaleComponent
+      }
+      // { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   }
 ];

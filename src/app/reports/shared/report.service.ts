@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Hotel } from 'src/app/general/shared/hotel';
-import { Person } from 'src/app/persons/shared/person';
+import { Person } from 'src/app/rrhh/shared/person/person';
 import { MigrationPerson } from './migrationPerson';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ReportService {
-  static convertPersonToMigration(val: Person[], hotel: Hotel): MigrationPerson[] {
+  static convertPersonToMigration({ val, hotel }: { val: Person[]; hotel: Hotel }): MigrationPerson[] {
     let migrationPersons: MigrationPerson[] = new Array();
     let p: MigrationPerson;
 
@@ -15,7 +15,7 @@ export class ReportService {
       p = {
         hotelCode: hotel.uuid,
         codeCity: '',
-        docType: val[contador].documentType,
+        docType: val[contador].documentType['code'],
         document: val[contador].document,
         nationality: val[contador].country.code,
         lastName: val[contador].lastName,
@@ -25,7 +25,7 @@ export class ReportService {
         movementDate: val[contador].birthdate,
         originPlace: '',
         destinationPlace: '',
-        birthDate: val[contador].birthdate,
+        birthDate: val[contador].birthdate
       };
       migrationPersons.push(p);
     }

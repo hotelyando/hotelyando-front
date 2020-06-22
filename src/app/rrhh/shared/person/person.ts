@@ -1,8 +1,8 @@
-import { Country } from 'src/app/clients/shared/country';
+import { Country } from 'src/app/general/shared/country';
 
 export interface Person {
   uuid?: string;
-  documentType: string;
+  documentType: DocumentType;
   document: string;
   name: string;
   // TODO: borrar first y lastname

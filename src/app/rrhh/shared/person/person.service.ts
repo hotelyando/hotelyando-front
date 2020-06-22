@@ -14,26 +14,6 @@ export class PersonService {
   person: Person;
   constructor(private http: HttpClient) {}
 
-  //TODO Llamar al servicio real del backend
-  findAll(): Observable<Person[]> {
-    return of([
-      {
-        uuid: 'uuidCliente1',
-        documentType: 'CC',
-        document: '105004004',
-        name: 'Marcela Amariles',
-        firstName: 'Marcela',
-        lastName: 'Amariles',
-        email: 'marce@a.com',
-        cellPhone: '3009801010',
-        country: {
-          code: 'CO',
-          name: 'Colombia'
-        }
-      } as Person
-    ]);
-  }
-
   list(type: string): Observable<Person[]> {
     let usuarios: Person[];
     const url = environment.apiUrl;

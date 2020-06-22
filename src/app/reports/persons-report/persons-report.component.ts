@@ -5,8 +5,8 @@ import { ExcelService } from 'src/app/general/reports/ExcelService';
 import { Fecha } from 'src/app/general/shared/fecha';
 import { Hotel } from 'src/app/general/shared/hotel';
 import { HotelService } from 'src/app/general/shared/hotel.service';
-import { Person } from 'src/app/persons/shared/person';
-import { PersonService } from 'src/app/persons/shared/person.service';
+import { Person } from 'src/app/rrhh/shared/person/person';
+import { PersonService } from 'src/app/rrhh/shared/person/person.service';
 import { isNull } from 'util';
 import { ReportService } from '../shared/report.service';
 
@@ -89,7 +89,7 @@ export class PersonsReportComponent implements OnInit {
     this.router.navigate([
       '/' +
         this.excelService.exportAsExcelFileRoute(
-          ReportService.convertPersonToMigration(this.dataSource, this.hotel),
+          ReportService.convertPersonToMigration({ val: this.dataSource, hotel: this.hotel }),
           'clientes' + fechaExport,
           'personsReport'
         )

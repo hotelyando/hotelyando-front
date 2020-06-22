@@ -1,6 +1,5 @@
 export interface Sale {
-  uuid: string;
-  hotelId: string;
+  uuid?: string;
   date: Date;
   state: SaleState;
   client: Client;

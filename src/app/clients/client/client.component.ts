@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Country } from '../shared/country';
-import { DocumentType, DOCUMENT_TYPES_LIST } from '../shared/document-type';
+import { Country } from 'src/app/general/shared/country';
+import { DocumentType, DOCUMENT_TYPES_LIST } from 'src/app/rrhh/shared/person/document-type';
 
 @Component({
   selector: 'ho-client',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/general/reports/ExcelService';
-import { Person } from 'src/app/persons/shared/person';
-import { PersonService } from 'src/app/persons/shared/person.service';
+import { Person } from 'src/app/rrhh/shared/person/person';
+import { PersonService } from 'src/app/rrhh/shared/person/person.service';
 import { EmployeeHotel } from '../shared/empleadoHotel';
 import { Employee } from '../shared/employee';
 import { EmployeeService } from '../shared/employee.service';
