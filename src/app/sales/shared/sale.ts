@@ -1,3 +1,5 @@
+import { Client } from './client';
+
 export interface Sale {
   uuid?: string;
   date: Date;
@@ -15,20 +17,13 @@ export enum SaleState {
   FACTURADA = 'Facturada'
 }
 export interface Value {
-  gross: bigint;
-  tax: bigint;
-  net: bigint;
-  discount: bigint;
-  total: bigint;
+  gross: number;
+  tax: number;
+  net: number;
+  discount: number;
+  total: number;
 }
 
-export interface Client {
-  uuid: string;
-  typeDocument: string;
-  document: string;
-  name: string;
-  country: string;
-}
 export interface Item {
   uuid: string;
   dateSale: Date;

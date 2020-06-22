@@ -1,4 +1,5 @@
-import { Country } from 'src/app/general/shared/country';
+import { Country } from 'src/app/general/shared/country/country';
+import { DocumentType } from './document-type';
 
 export interface Person {
   uuid?: string;

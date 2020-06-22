@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Person } from 'src/app/rrhh/shared/person/person';
 import { PersonService } from 'src/app/rrhh/shared/person/person.service';
-import { Client, SaleState } from '../shared/sale';
+import { Client } from '../shared/client';
+import { Sale, SaleState } from '../shared/sale';
+import { SaleService } from '../shared/sale.service';
 
 @Component({
   selector: 'ho-sale',
@@ -15,9 +17,13 @@ export class SaleComponent implements OnInit {
 
   clients: Observable<Person[]>;
 
-  constructor(private formBuilder: FormBuilder, private personService: PersonService) {}
+  sale: Sale;
 
-  ngOnInit() {
+  constructor(private formBuilder: FormBuilder, private personService: PersonService, private saleService: SaleService) {}
+
+  ngOnInit(): void {
+    this.sale = this.saleService.createNewSale();
+
     this.saleForm = this.formBuilder.group({
       uuid: [null],
       date: [null],
@@ -27,8 +33,6 @@ export class SaleComponent implements OnInit {
       items: [null],
       rooms: [null]
     });
-
-    // this.clients = this.personService.findAll();
   }
 
   getClientDescription(client: Client) {
