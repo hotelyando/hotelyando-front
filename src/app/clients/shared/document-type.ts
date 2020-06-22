@@ -32,4 +32,12 @@ export const REGISTRO: DocumentType = {
   description: 'Registro Civil'
 };
 
-export const DOCUMENT_TYPES: DocumentType[] = [CEDULA, NIT, PASAPORTE, NUIP, TARJETA, REGISTRO];
+export const DOCUMENT_TYPES_LIST: DocumentType[] = [CEDULA, NIT, PASAPORTE, NUIP, TARJETA, REGISTRO];
+
+export const DOCUMENT_TYPES_MAP = {
+  [CEDULA.code]: CEDULA,
+  [NIT.code]: NIT,
+  [PASAPORTE.code]: PASAPORTE,
+  [TARJETA.code]: TARJETA,
+  [REGISTRO.code]: REGISTRO
+};

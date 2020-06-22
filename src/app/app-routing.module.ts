@@ -36,6 +36,10 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => EmployeesModule
+      },
+      {
+        path: '',
+        loadChildren: () => SalesModule
       }
     ]
   },

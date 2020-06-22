@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { Person } from 'src/app/clients/shared/client';
 import { messages } from 'src/app/general/messages';
 import { Response } from 'src/app/general/shared/response';
+import { Person } from 'src/app/persons/shared/person';
 import { environment } from 'src/environments/environment';
 import { EmployeeHotel } from './empleadoHotel';
 
