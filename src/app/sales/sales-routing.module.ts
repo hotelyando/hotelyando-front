@@ -20,8 +20,8 @@ const routes: Routes = [
       {
         path: ':id',
         component: SaleComponent
-      }
-      // { path: '', redirectTo: 'list', pathMatch: 'full' }
+      },
+      { path: '', redirectTo: 'new', pathMatch: 'full' }
     ]
   }
 ];
